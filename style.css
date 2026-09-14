@@ -1,0 +1,47 @@
+body {
+    display: block;
+    background-color: black;
+    margin: auto;
+}
+
+.topnav {
+    float: left;
+    display: flex;
+    overflow: hidden;
+    top: 1%;
+    position: fixed;
+    z-index: 2;
+  }
+  
+  .topnav a {
+    
+    float: left;
+    color: white;
+    border-radius: 20%;
+    text-align: center;
+    padding: 10px 16px;
+    margin: 2%;
+    text-decoration: none;
+    font-size: 17px;
+  }
+  
+  .topnav a:hover {
+    background-color: rgb(149, 67, 204);
+    color: white;
+  }
+  
+  .topnav a.active {
+    width: 50%;
+    color: white;
+    background-color: rgb(4, 0, 255);
+  }
+
+  .top-rec {
+    left: 0%;
+    width: 100%;
+    height: 8%;
+    top: -1%;
+    background-color: rgb(70, 43, 145);
+    position: fixed;
+    z-index: 1;
+}
