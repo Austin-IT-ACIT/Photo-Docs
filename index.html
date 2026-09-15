@@ -8,11 +8,29 @@
     <img src="" alt="">
 </head>
 <body>
-
+ <!-- This is the not navagation bar for when switching from different webpages -->
     <div class="topnav">
         <a class="active" href="index.html">Home</a>
         <a class="" href="youtube.com">youtube</a>
     </div>
+
+<!-- This is the box for the chat room for the user and the AI -->
+    <!-- <div class="chatbox">
+        <input type="text" class="textbox" placeholder="Want to change something? Tell me!!">
+    </div> -->
     
+<!-- this is used to enlarge one side more then the other if needed -->
+    <div class="split-container">
+  <div class="panel left-panel">
+    <div class="chatbox">
+        <input type="text" class="textbox" placeholder="Want to change something? Tell me!!">
+    </div>
+  </div>
+  <div class="resizer" id="dragMe"></div>
+  <div class="panel, right-panel">Right Side</div>
+</div>
+
+
+<script src="script.js"></script>
 </body>
 </html>
