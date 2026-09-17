@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,30 +8,45 @@
     <title>Photo-Doc</title>
     <img src="" alt="">
 </head>
+
 <body>
- <!-- This is the not navagation bar for when switching from different webpages -->
-    <div class="topnav">
-        <a class="active" href="index.html">Home</a>
-        <a class="" href="youtube.com">youtube</a>
+    <div id="whole_page">
+        <!-- This is the not navagation bar for when switching from different webpages -->
+        <div class="topnav">
+            <a class="active" href="index.html">Home</a>
+            <a class="" href="docs.html">docs</a>
+        </div>
+
+        <!-- this is used to enlarge one side more then the other if needed -->
+        <div class="split-container">
+            <div class="panel left-panel">
+                <div id="addlink">
+                <input type="text" id="link" placeholder="Enter URL here (e.g., https://example.com)">
+                <button id="linkbutton">Add Link</button>
+                </div>
+                <div id="chatbox">
+                    <input type="text" id="textbox" placeholder="Want to change something? Tell me!!">
+                </div>
+                <div id="files">
+                    <input type="file" id="file_button" name='filename' accept="image/*">
+                    <br>
+                    <img src="" alt="Image Preview" id="preview">
+                </div>
+            </div>
+            <div class="resizer" id="dragMe"></div>
+            <div class="panel, right-panel">
+                <button id="reload_button"><img src="photos/pngtree-reload-vector-icon-png-image_696434.jpg" alt=""
+                        class="photo"></button>
+                <!-- this is how i input the doc inside the web page -->
+                <iframe
+                    src="https://docs.google.com/document/d/18rB12uyaOop67Sj5Ep_HiLmKW7C3yWx-mmGWbexusiQ/edit?rm=minimal"
+                    frameborder="0" id="doc"></iframe>
+            </div>
+        </div>
     </div>
 
-<!-- This is the box for the chat room for the user and the AI -->
-    <!-- <div class="chatbox">
-        <input type="text" class="textbox" placeholder="Want to change something? Tell me!!">
-    </div> -->
-    
-<!-- this is used to enlarge one side more then the other if needed -->
-    <div class="split-container">
-  <div class="panel left-panel">
-    <div class="chatbox">
-        <input type="text" class="textbox" placeholder="Want to change something? Tell me!!">
-    </div>
-  </div>
-  <div class="resizer" id="dragMe"></div>
-  <div class="panel, right-panel">Right Side</div>
-</div>
 
-
-<script src="script.js"></script>
+    <script src="script.js"></script>
 </body>
+
 </html>

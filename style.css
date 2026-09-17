@@ -1,6 +1,7 @@
 * {
   margin: 0;
   padding: 0;
+  overflow: hidden;
 }
 
 /* this is the general start to a webpage */
@@ -11,18 +12,17 @@ body {
 
 /* top navagation bar css */
 .topnav {
+  position:relative;
   background-color: rgb(149, 67, 204);
   width: 100%;
-  height: 4.5%;
+  height: 6%;
   padding: 5px; 
   top: 0;
-    display: flex;
-    overflow: hidden;
-    flex-direction: row;
-    gap: 0.2%;
-    position: fixed;
-    z-index: 2;
-  }
+  display: flex;
+  overflow: hidden;
+  flex-direction: row;
+  gap: 0.2%;
+  position: fixed;  }
   
   /* top navagation links / wording */
   .topnav a {
@@ -31,9 +31,10 @@ body {
     color: white;
     border-radius: 20%;
     height: 40%;
-    width: 2%;
+    width: 2.5%;
     text-align: center;
-    padding: 10px 16px;
+    top: 5%;
+    padding: 10px 20px;
     text-decoration: none;
     font-size: 17px;
   }
@@ -52,29 +53,29 @@ body {
   }
 
   /* this is a box for the chat that the user and AI will be talking through */
-  .chatbox {
+  #chatbox {
     position: relative;
     color: white;
     background-color: white;
     border-radius: 10%;
     left: 35%;
-    top: 20%;
+    top: 10%;
     width: 35%;
     height: 60%;
   }
 /* moving the textbox inside the chatbox */
-  .textbox {
+  #textbox {
     position: relative;
     height: 4%;
     width: 90%;
     top: 93%;
     left: 4%;
-    text-align: center;
   }
 
   /*  */
   .split-container {
   display: flex;
+  top: 17%;
   height: 100vh;
   width: 100vw;
   overflow: hidden;
@@ -94,4 +95,55 @@ body {
   width: 10px;
   background-color: #ccc;
   cursor: ew-resize;
+}
+
+#doc {
+  width: 100%;
+  height: 100%;
+  /* z-index: 2; */
+}
+
+#reload_button {
+  width: 3%;
+  height: 5%;
+  right: 1%;
+  top: 10%;
+  position: fixed;
+  float: right;
+  z-index: 3;
+}
+
+.photo {
+  width: 100%;
+  height: 100%;
+}
+
+#file_button {
+  position: relative;
+  color: red;
+  width: 100%;
+  bottom: -1%;
+  left: 20%;
+}
+
+#files {
+  position: relative;
+  bottom: -13%;
+  background-color: white;
+  width: 40%;
+  height: 20%;
+  left: 32%;
+}
+
+#preview {
+  position: relative;
+  width: 70%;
+  height: auto;
+  right: -10%;
+
+}
+
+#addlink {
+  position: relative;
+  top: 50%;
 }
