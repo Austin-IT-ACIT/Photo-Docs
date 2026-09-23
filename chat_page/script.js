@@ -65,11 +65,10 @@ google_doc.src = google_doc.src
 }
 })
 
-textbox.addEventListener('keydown', function(event) {
-    if (event.key === 'Enter') {
-      if (google_doc) {
-        google_doc.src = google_doc.src
-}
+window.addEventListener('keydown', function(event) {
+    if (event.key === 'Enter' && event.ctrlKey) {
+      google_doc.src = google_doc.src
+      
 }
 })
 
@@ -77,6 +76,7 @@ textbox.addEventListener('keydown', function(event) {
 file.addEventListener('change', function() {
   const file = this.files[0]
 
+// if there is something selected for the file it'll show
   if (file) {
     const objectURL = URL.createObjectURL(file)
 
@@ -84,14 +84,21 @@ file.addEventListener('change', function() {
     preview.style.display = 'block'
   }
 
+  // if there is nothing selected for the file it'll show nothing
   else {
     preview.src = ''
     preview.style.display = 'none'
   }
 })
 
+// allows the ability to just share the google doc link 
 button_link.addEventListener('click', function() {
-  
-  google_doc.src = text_link.value
 
+  let newlink = text_link.value
+  // get rid of the ?usp=sharing or ?tab=t.0 at the end of the link
+  let spliter = newlink.split('?')[0]
+  google_doc.src = spliter + "?rm=minimal"
+
+  // changes the style for the preview 
+  preview.style.left = '0%'
 })

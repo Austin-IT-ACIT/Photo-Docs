@@ -13,15 +13,16 @@
     <div id="whole_page">
         <!-- This is the not navagation bar for when switching from different webpages -->
         <div class="topnav">
-            <a class="active" href="index.html">Home</a>
-            <a class="" href="docs.html">docs</a>
+            <a class="" href="../home_page/home.html">Home</a>
+            <a class="active" href="index.html">Chat</a>
+            <a class="" href="../docs_page/docs.html">Docs</a>
         </div>
 
         <!-- this is used to enlarge one side more then the other if needed -->
         <div class="split-container">
             <div class="panel left-panel">
                 <div id="addlink">
-                <input type="text" id="link" placeholder="Enter URL here (e.g., https://example.com)">
+                <input type="text" id="link" placeholder="Enter Doc Link here">
                 <button id="linkbutton">Add Link</button>
                 </div>
                 <div id="chatbox">
@@ -35,11 +36,11 @@
             </div>
             <div class="resizer" id="dragMe"></div>
             <div class="panel, right-panel">
-                <button id="reload_button"><img src="photos/pngtree-reload-vector-icon-png-image_696434.jpg" alt=""
+                <button id="reload_button"><img src="../photos/pngtree-reload-vector-icon-png-image_696434.jpg" alt=""
                         class="photo"></button>
                 <!-- this is how i input the doc inside the web page -->
                 <iframe
-                    src="https://docs.google.com/document/d/18rB12uyaOop67Sj5Ep_HiLmKW7C3yWx-mmGWbexusiQ/edit?rm=minimal"
+                    src="https://docs.google.com/document/d/18rB12uyaOop67Sj5Ep_HiLmKW7C3yWx-mmGWbexusiQ/preview?=minimal"
                     frameborder="0" id="doc"></iframe>
             </div>
         </div>
