@@ -25,8 +25,10 @@
                 <input type="text" id="link" placeholder="Enter Doc Link here">
                 <button id="linkbutton">Add Link</button>
                 </div>
-                <div id="chatbox">
-                    <input type="text" id="textbox" placeholder="Want to change something? Tell me!!">
+                <div id="whole-box">
+                 <div id="chat-box"></div>
+                    <input type="text" id="user-input" placeholder="Type a message..."/>
+                    <button id="send-btn">Send</button>
                 </div>
                 <div id="files">
                     <input type="file" id="file_button" name='filename' accept="image/*">
@@ -46,6 +48,72 @@
         </div>
     </div>
 
+
+    
+<!-- FOR CHAT BOX WITH AI, NEED TO UNDERSTAND -->
+    <script>
+    const chatBox = document.getElementById('chat-box');
+    const userInput = document.getElementById('user-input');
+    const sendBtn = document.getElementById('send-btn');
+
+    let conversationHistory = [];
+
+    async function sendMessage() {
+      console.log("Send button clicked! Input value is:", userInput.value); // <-- Diagnostics check
+
+      const text = userInput.value.trim();
+      if (!text) return;
+
+      // 1. Append User Message to UI
+      appendMessage(text, 'user');
+      userInput.value = '';
+
+      // 2. Track message history
+      conversationHistory.push({ role: 'user', content: text });
+
+      // 3. Create placeholder for AI response
+      const aiMessageDiv = appendMessage('Thinking...', 'ai');
+
+      try {
+        // 4. Fetch response from local Ollama instance
+        const response = await fetch('http://10.132.16.96:11234', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            model: 'qwen',
+            messages: conversationHistory,
+            stream: false 
+          })
+        });
+
+        if (!response.ok) throw new Error('Failed to connect to Ollama');
+
+        const data = await response.json();
+        const aiReply = data.message.content;
+
+        // 5. Update UI and History with final answer
+        aiMessageDiv.innerText = aiReply;
+        conversationHistory.push({ role: 'assistant', content: aiReply });
+
+      } catch (error) {
+        aiMessageDiv.innerText = 'Error: Make sure Ollama is running and OLLAMA_ORIGINS="*" environment variable is set.';
+        console.error("Full system error details:", error);
+      }
+    }
+
+    function appendMessage(text, sender) {
+      const msgDiv = document.createElement('div');
+      msgDiv.classList.add('message', sender);
+      msgDiv.innerText = text;
+      chatBox.appendChild(msgDiv);
+      chatBox.scrollTop = chatBox.scrollHeight; 
+      return msgDiv;
+    }
+
+    // Event Listeners matching your IDs
+    sendBtn.addEventListener('click', sendMessage);
+    userInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') sendMessage(); });
+  </script>
 
     <script src="script.js"></script>
 </body>

@@ -1,14 +1,21 @@
+import * as webllm from "https://esm.run/@mlc-ai/web-llm";
+
 // get all the required elements from index.html
 const resizer = document.getElementById('dragMe')
 const leftPanel = document.querySelector('.left-panel')
 const container = document.querySelector('.split-container')
 const reload_button = document.getElementById('reload_button')
 const google_doc = document.getElementById('doc')
-const textbox = document.getElementById('textbox')
+const chatBox = document.getElementById("chat-box");
+const userInput = document.getElementById("user-input");
+const sendBtn = document.getElementById("send-btn");
 const file = document.getElementById('file_button')
 const preview = document.getElementById('preview')
 const text_link = document.getElementById('link')
 const button_link = document.getElementById('linkbutton')
+
+
+
 
 // start functions
 let x = 0
@@ -102,3 +109,4 @@ button_link.addEventListener('click', function() {
   // changes the style for the preview 
   preview.style.left = '0%'
 })
+

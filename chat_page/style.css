@@ -52,24 +52,23 @@ body {
     background-color: rgb(4, 0, 255);
   }
 
+
+#whole-box {
+  top: 10%;
+  position: relative;
+  left: 10%;
+}
   /* this is a box for the chat that the user and AI will be talking through */
-  #chatbox {
-    position: relative;
-    color: white;
-    background-color: white;
-    border-radius: 10%;
-    left: 35%;
-    top: 10%;
-    width: 35%;
-    height: 60%;
+  #chat-box {
+    width: 40%;
+height: 300px; 
+border: 1px solid #ccc; 
+overflow-y: scroll; 
+padding: 10px;
   }
 /* moving the textbox inside the chatbox */
-  #textbox {
-    position: relative;
-    height: 4%;
-    width: 90%;
-    top: 93%;
-    left: 4%;
+  #user-input {
+    width: 40%;
   }
 
   /*  */
@@ -83,7 +82,7 @@ body {
 
 .left-panel {
   width: 50%;
-  background-color: #000000;
+  background-color: #b1acac;
 }
 
 .right-panel {
@@ -144,6 +143,14 @@ body {
 
 #addlink {
   position: relative;
+  align-items: center;
+  height: auto;
+  width: auto;
   top: 8%;
-  left: 34%;
+  left: 38%;
+}
+
+#linkbutton {
+  position: relative;
+  left: 4%;
 }
