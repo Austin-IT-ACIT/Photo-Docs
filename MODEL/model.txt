@@ -1,0 +1,3 @@
+http://10.132.16.96:1234/v1/chat/completions
+
+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

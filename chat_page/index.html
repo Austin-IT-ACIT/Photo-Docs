@@ -2,120 +2,60 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
-    <title>Photo-Doc</title>
-    <img src="" alt="">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+  <title>Photo-Doc</title>
+  <img src="" alt="">
+  <link rel="icon" type="image/x-icon" href="../photos/pngtree-reload-vector-icon-png-image_696434.jpg">
 </head>
 
 <body>
-    <div id="whole_page">
-        <!-- This is the not navagation bar for when switching from different webpages -->
-        <div class="topnav">
-            <a class="" href="../home_page/home.html">Home</a>
-            <a class="active" href="index.html">Chat</a>
-            <a class="" href="../docs_page/docs.html">Docs</a>
-        </div>
-
-        <!-- this is used to enlarge one side more then the other if needed -->
-        <div class="split-container">
-            <div class="panel left-panel">
-                <div id="addlink">
-                <input type="text" id="link" placeholder="Enter Doc Link here">
-                <button id="linkbutton">Add Link</button>
-                </div>
-                <div id="whole-box">
-                 <div id="chat-box"></div>
-                    <input type="text" id="user-input" placeholder="Type a message..."/>
-                    <button id="send-btn">Send</button>
-                </div>
-                <div id="files">
-                    <input type="file" id="file_button" name='filename' accept="image/*">
-                    <br>
-                    <img src="" alt="Image Preview" id="preview">
-                </div>
-            </div>
-            <div class="resizer" id="dragMe"></div>
-            <div class="panel, right-panel">
-                <button id="reload_button"><img src="../photos/pngtree-reload-vector-icon-png-image_696434.jpg" alt=""
-                        class="photo"></button>
-                <!-- this is how i input the doc inside the web page -->
-                <iframe
-                    src="https://docs.google.com/document/d/18rB12uyaOop67Sj5Ep_HiLmKW7C3yWx-mmGWbexusiQ/preview?=minimal"
-                    frameborder="0" id="doc"></iframe>
-            </div>
-        </div>
+  <div id="whole_page">
+    <!-- This is the not navagation bar for when switching from different webpages -->
+    <div class="topnav">
+      <a class="" href="../home_page/home.html">Home</a>
+      <a class="active" href="index.html">Chat</a>
+      <a class="" href="../docs_page/docs.html">Docs</a>
     </div>
 
+    <!-- this is used to enlarge one side more then the other if needed -->
+    <div class="split-container">
+      <div class="panel left-panel">
+        <div id="addlink">
+          <input type="text" id="link" placeholder="Enter Doc Link here">
+          <button id="linkbutton">Add Link</button>
+        </div>
+        <div id="whole-box">
+          <div id="chat-box"></div>
+          <input type="text" id="user-input" placeholder="Type a message..." />
+          <button id="send-btn">Send</button>
+        </div>
+        <div id="files">
+    <!-- Added the 'multiple' attribute so you can select more than one image -->
+    <input type="file" id="file_button" name='filename' accept="image/*" multiple>
+    <br>
+    <!-- Keep this container empty; script.js will dynamically add the thumbnails here -->
+    <div id="preview-container" style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px;"></div>
+</div>
 
-    
-<!-- FOR CHAT BOX WITH AI, NEED TO UNDERSTAND -->
-    <script>
-    const chatBox = document.getElementById('chat-box');
-    const userInput = document.getElementById('user-input');
-    const sendBtn = document.getElementById('send-btn');
 
-    let conversationHistory = [];
+      </div>
+      <div class="resizer" id="dragMe"></div>
+      <div class="panel, right-panel">
+        <button id="reload_button"><img src="../photos/pngtree-reload-vector-icon-png-image_696434-removebg-preview (1).png" alt=""
+            class="photo"></button>
+        <!-- this is how i input the doc inside the web page -->
+        <iframe src="https://docs.google.com/document/d/18rB12uyaOop67Sj5Ep_HiLmKW7C3yWx-mmGWbexusiQ/preview?=minimal"
+          frameborder="0" id="doc"></iframe>
+      </div>
+    </div>
+  </div>
 
-    async function sendMessage() {
-      console.log("Send button clicked! Input value is:", userInput.value); // <-- Diagnostics check
 
-      const text = userInput.value.trim();
-      if (!text) return;
 
-      // 1. Append User Message to UI
-      appendMessage(text, 'user');
-      userInput.value = '';
-
-      // 2. Track message history
-      conversationHistory.push({ role: 'user', content: text });
-
-      // 3. Create placeholder for AI response
-      const aiMessageDiv = appendMessage('Thinking...', 'ai');
-
-      try {
-        // 4. Fetch response from local Ollama instance
-        const response = await fetch('http://10.132.16.96:11234', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            model: 'qwen',
-            messages: conversationHistory,
-            stream: false 
-          })
-        });
-
-        if (!response.ok) throw new Error('Failed to connect to Ollama');
-
-        const data = await response.json();
-        const aiReply = data.message.content;
-
-        // 5. Update UI and History with final answer
-        aiMessageDiv.innerText = aiReply;
-        conversationHistory.push({ role: 'assistant', content: aiReply });
-
-      } catch (error) {
-        aiMessageDiv.innerText = 'Error: Make sure Ollama is running and OLLAMA_ORIGINS="*" environment variable is set.';
-        console.error("Full system error details:", error);
-      }
-    }
-
-    function appendMessage(text, sender) {
-      const msgDiv = document.createElement('div');
-      msgDiv.classList.add('message', sender);
-      msgDiv.innerText = text;
-      chatBox.appendChild(msgDiv);
-      chatBox.scrollTop = chatBox.scrollHeight; 
-      return msgDiv;
-    }
-
-    // Event Listeners matching your IDs
-    sendBtn.addEventListener('click', sendMessage);
-    userInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') sendMessage(); });
-  </script>
-
-    <script src="script.js"></script>
+  <!-- FOR CHAT BOX WITH AI, NEED TO UNDERSTAND -->
+<script type="module" src="script.js"></script>
 </body>
 
 </html>
