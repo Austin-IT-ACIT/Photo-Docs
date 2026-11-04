@@ -1,8 +1,8 @@
 import * as webllm from "https://esm.run/@mlc-ai/web-llm";
 
-// ========================================================
-// 1. GLOBAL VARIABLE AND DOM ELEMENT SELECTION
-// ========================================================
+// ============================================\
+// 1. GLOBAL VARIABLE AND DOM ELEMENT SELECTION |       
+// ============================================/
 const resizer = document.getElementById('dragMe');
 const leftPanel = document.querySelector('.left-panel');
 const container = document.querySelector('.split-container');
@@ -22,9 +22,9 @@ const button_link = document.getElementById('linkbutton');
 let conversationHistory = [];
 let selectedFilesList = []; // Tracks multiple uploaded image files at once
 
-// ========================================================
-// 2. YOUR EXACT PANEL SLIDER FUNCTIONS (SAFEGUARDED)
-// ========================================================
+// ====================================\
+// 2. YOUR EXACT PANEL SLIDER FUNCTIONS |
+// ====================================/
 let x = 0;
 let leftWidth = 0;
 
@@ -57,9 +57,9 @@ if (resizer && leftPanel && container) {
   });
 }
 
-// ========================================================
-// 3. REFRESH & GOOGLE DOC LINK UPDATER FUNCTIONS
-// ========================================================
+// ==============================================\
+// 3. REFRESH & GOOGLE DOC LINK UPDATER FUNCTIONS |
+// ==============================================/
 if (reload_button) {
   reload_button.addEventListener('click', () => {
     if (google_doc) google_doc.src = google_doc.src;
@@ -81,9 +81,9 @@ if (button_link) {
   });
 }
 
-// ========================================================
-// 4. MULTI-IMAGE ATTACHMENT MANAGER & PREVIEW GENERATOR
-// ========================================================
+// =====================================================\
+// 4. MULTI-IMAGE ATTACHMENT MANAGER & PREVIEW GENERATOR |
+// =====================================================/
 if (file) {
   file.addEventListener('change', function(e) {
     if (!e.target.files) return;
@@ -157,112 +157,119 @@ function fileToBase64(fileObj) {
   });
 }
 
-// ========================================================
-// 5. AI CHAT ACTIONS & MULTIMODAL API PAYLOADS
-// ========================================================
+// ============================================\
+// 5. AI CHAT ACTIONS & MULTIMODAL API PAYLOADS |
+// ============================================/
 async function sendMessage() {
-  console.log("Send button clicked! Input value is:", userInput.value);
+  console.log("Send button clicked! Input value is:", userInput.value)
 
   const text = userInput.value.trim();
-  if (!text && selectedFilesList.length === 0) return;
+  if (!text && selectedFilesList.length === 0) return
 
   // Snapshot active blob pointers for interface message bubble logs
-  const localBlobUrls = selectedFilesList.map(f => URL.createObjectURL(f));
+  const localBlobUrls = selectedFilesList.map(f => URL.createObjectURL(f))
 
-  appendMessage(text, 'user', localBlobUrls);
-  userInput.value = '';
+  appendMessage(text, 'user', localBlobUrls)
+  userInput.value = ''
 
-  let messageContent = [];
+  let messageContent = []
   if (text) {
-    messageContent.push({ type: 'text', text: text });
+    messageContent.push({ type: 'text', text: text })
   }
 
   if (selectedFilesList.length > 0) {
     try {
-      const base64Strings = await Promise.all(selectedFilesList.map(f => fileToBase64(f)));
+      const base64Strings = await Promise.all(selectedFilesList.map(f => fileToBase64(f)))
       base64Strings.forEach(base64Str => {
         messageContent.push({
           type: 'image_url',
           image_url: { url: base64Str }
-        });
-      });
+        })
+      })
     } catch (err) {
-      console.error("Base64 string conversion breakdown encountered:", err);
+      console.error("Base64 string conversion breakdown encountered:", err)
     }
   }
 
-  conversationHistory.push({ role: 'user', content: messageContent });
+  conversationHistory.push({ role: 'user', content: messageContent })
 
   // Clear background trackers upon message dispatch
   selectedFilesList = [];
-  if (previewContainer) previewContainer.innerHTML = '';
+  if (previewContainer) previewContainer.innerHTML = ''
 
   // Render temporary loader text block states
-  const aiMessageDiv = appendMessage('Thinking...', 'ai');
+  const aiMessageElements = appendMessage('Thinking...', 'ai')
 
   try {
     const response = await fetch('http://10.132.16.96:1234/v1/chat/completions', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        model: 'google/gemma-4-e2b',
+        model: 'qwen',
         messages: conversationHistory,
         stream: false
       })
     });
 
-    if (!response.ok) throw new Error('Could not establish backend server connection.');
+    if (!response.ok) throw new Error('Could not establish backend server connection.')
 
-    const data = await response.json();
-    const aiReply = data.choices.message.content;
+    const data = await response.json()
+    const aiReply = data.choices[0].message.content
 
-    aiMessageDiv.innerText = aiReply;
-    conversationHistory.push({ role: 'assistant', content: aiReply });
+    // FIX: Target only the text span node to protect layout containers
+    aiMessageElements.textSpan.innerText = aiReply
+    conversationHistory.push({ role: 'assistant', content: aiReply })
 
   } catch (error) {
-    aiMessageDiv.innerText = 'Error: Make sure your local server environment is running and accessible.';
-    console.error("Tracing diagnostic log:", error);
+    // FIX: Target only the text span node on error
+    if (aiMessageElements && aiMessageElements.textSpan) {
+      aiMessageElements.textSpan.innerText = 'Error: Make sure your local server environment is running and accessible.';
+    }
+    console.error("Full system error details:", error)
   }
 }
 
+
 function appendMessage(text, sender, imageUrlArray = []) {
-  if (!chatBox) return null;
+  if (!chatBox) return null
   
-  const msgDiv = document.createElement('div');
-  msgDiv.classList.add('message', sender);
+  const msgDiv = document.createElement('div')
+  msgDiv.classList.add('message', sender)
 
   if (imageUrlArray && imageUrlArray.length > 0) {
-    const imagesWrapper = document.createElement('div');
-    imagesWrapper.style.display = 'flex';
-    imagesWrapper.style.flexWrap = 'wrap';
-    imagesWrapper.style.gap = '5px';
-    imagesWrapper.style.marginBottom = '5px';
+    const imagesWrapper = document.createElement('div')
+    imagesWrapper.style.display = 'flex'
+    imagesWrapper.style.flexWrap = 'wrap'
+    imagesWrapper.style.gap = '5px'
+    imagesWrapper.style.marginBottom = '5px'
 
     imageUrlArray.forEach(url => {
-      const img = document.createElement('img');
-      img.src = url;
-      img.style.maxWidth = '120px';
-      img.style.maxHeight = '120px';
-      img.style.borderRadius = '5px';
-      img.style.objectFit = 'cover';
-      imagesWrapper.appendChild(img);
+      const img = document.createElement('img')
+      img.src = url
+      img.style.maxWidth = '120px'
+      img.style.maxHeight = '120px'
+      img.style.borderRadius = '5px'
+      img.style.objectFit = 'cover'
+      imagesWrapper.appendChild(img)
     });
-    msgDiv.appendChild(imagesWrapper);
+    msgDiv.appendChild(imagesWrapper)
   }
 
+  // Create text container explicitly so it can be safely referenced later
+  const textSpan = document.createElement('span')
   if (text) {
-    const textSpan = document.createElement('span');
-    textSpan.innerText = text;
-    msgDiv.appendChild(textSpan);
+    textSpan.innerText = text
   }
+  msgDiv.appendChild(textSpan)
 
-  chatBox.appendChild(msgDiv);
+  chatBox.appendChild(msgDiv)
   chatBox.scrollTop = chatBox.scrollHeight; 
-  return msgDiv;
+
+  return { msgDiv, textSpan }
 }
 
 // Bind chat actions only if chat components are running on the active webpage context
 if (sendBtn && userInput) {
-  sendBtn.addEventListener('click', sendMessage);
-  userInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') sendMessage(); });
+  sendBtn.addEventListener('click', sendMessage)
+  userInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') sendMessage(); })
 }

@@ -74,6 +74,9 @@ body {
 
 /* start of the left box */
 #whole-box {
+  border: red;
+  border-width: 2px;
+  width: 100%;
   top: 10%;
   position: relative;
   left: 30%;
